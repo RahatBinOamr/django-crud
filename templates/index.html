@@ -1,0 +1,52 @@
+{% extends "base.html" %} {% block content %} <br />
+{% comment %} employee form {% endcomment %}
+<div class="container">
+  <div class="row">
+    <div class="col col-6 offset-2">
+      <form method="post">
+        {% csrf_token %} {{form.as_p}}
+        <input type="submit" value="submit" class="btn btn-primary" />
+      </form>
+    </div>
+  </div>
+</div>
+{% comment %} employee data {% endcomment %}
+<div class="h4 pb-2 mb-4 text-danger border-bottom border-danger">
+  Employee Data
+</div>
+<div class="container mt-2">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Position</th>
+        <th scope="col">Address</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in employeeData%}
+      <tr>
+        <th>{{employee.name}}</th>
+        <td>{{employee.email}}</td>
+        <td>{{employee.position}}</td>
+        <td>{{employee.address}}</td>
+        <td>
+          <a href="{% url 'update' employee.id %}">
+            <button class="btn btn-success">Edit</button></a
+          >
+        </td>
+        <td>
+          <form action="{% url 'delete' employee.id  %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}
